@@ -9,13 +9,20 @@ import (
 	simplejson "github.com/bitly/go-simplejson"
 	"github.com/gocolly/colly"
 	"github.com/jianggushi/topstory/models"
+	"github.com/jianggushi/topstory/pkg/utils"
 )
 
 type ResouSpider struct {
-	nodeID  int64
-	htmlURL string
-	jsonURL string
-	domain  string
+	Name     string
+	Display  string
+	Homepage string
+	Logo     string
+	Domain   string
+
+	HtmlURL string
+	JsonURL string
+
+	NodeID int64
 }
 
 func (spider *ResouSpider) Crawl() error {
@@ -23,13 +30,10 @@ func (spider *ResouSpider) Crawl() error {
 	if err != nil {
 		return err
 	}
-	for _, item := range items {
-		log.Println(item)
+	err = models.SaveItems(spider.NodeID, items)
+	if err != nil {
+		return err
 	}
-	return nil
-}
-
-func (spider *ResouSpider) saveItems(items []*models.Item) error {
 	return nil
 }
 
@@ -46,19 +50,19 @@ func (spider *ResouSpider) parseHTML() ([]*models.Item, error) {
 		title := e.ChildText("td[class='td-02'] > a")
 		URL := e.ChildAttr("td[class='td-02'] > a", "href")
 		if strings.HasPrefix(URL, "/") {
-			URL = spider.domain + URL
+			URL = spider.Domain + strings.TrimLeft(URL, "/")
 		}
 		extra := e.ChildText("td[class='td-02'] > span")
 		item := &models.Item{
-			Title: title,
-			URL:   URL,
-			// MD5:    utils.MD5(URL),
+			Title:  title,
+			URL:    URL,
+			MD5:    utils.MD5(URL),
 			Extra:  extra,
-			NodeID: spider.nodeID,
+			NodeID: spider.NodeID,
 		}
 		items = append(items, item)
 	})
-	c.Visit(spider.htmlURL)
+	c.Visit(spider.HtmlURL)
 	if len(items) == 0 {
 		return nil, errors.New("not data")
 	}
@@ -79,7 +83,7 @@ func (spider *ResouSpider) parseJSON() ([]*models.Item, error) {
 		}
 		fmt.Println(js.Get("cards").GetIndex(0).Get("card_group"))
 	})
-	c.Visit(spider.jsonURL)
+	c.Visit(spider.JsonURL)
 	if len(items) == 0 {
 		return nil, errors.New("not data")
 	}
