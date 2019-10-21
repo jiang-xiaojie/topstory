@@ -34,6 +34,15 @@ func NewNode(name, display, homepage, logo, domain string) (*Node, error) {
 	return &node, nil
 }
 
+func GetNodes() ([]*Node, error) {
+	var nodes []*Node
+	err := db.Find(&nodes).Error
+	if err != nil {
+		return nil, fmt.Errorf("get nodes: %w", err)
+	}
+	return nodes, nil
+}
+
 func GetNodeByHomepage(homepage string) (*Node, error) {
 	md5 := utils.MD5(homepage)
 	node := Node{}

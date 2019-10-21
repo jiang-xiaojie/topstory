@@ -2,14 +2,15 @@ package weibo
 
 import (
 	"errors"
-	"fmt"
-	"log"
 	"strings"
 
-	simplejson "github.com/bitly/go-simplejson"
+	"github.com/jianggushi/topstory/pkg/spiders"
+
 	"github.com/gocolly/colly"
 	"github.com/jianggushi/topstory/models"
 	"github.com/jianggushi/topstory/pkg/utils"
+	"github.com/jinzhu/gorm"
+	log "github.com/sirupsen/logrus"
 )
 
 type ResouSpider struct {
@@ -26,6 +27,7 @@ type ResouSpider struct {
 }
 
 func (spider *ResouSpider) Crawl() error {
+	log.Infof("crawl: %v %v %v", spider.Name, spider.Display, spider.Homepage)
 	items, err := spider.parseHTML()
 	if err != nil {
 		return err
@@ -41,7 +43,7 @@ func (spider *ResouSpider) parseHTML() ([]*models.Item, error) {
 	c := colly.NewCollector()
 	items := make([]*models.Item, 0)
 	c.OnRequest(func(r *colly.Request) {
-		log.Println("Visiting", r.URL)
+		log.Infof("visiting url: %v", r.URL)
 	})
 	c.OnHTML("tbody > tr", func(e *colly.HTMLElement) {
 		if e.ChildText("td[class='td-01 ranktop']") == "" {
@@ -69,23 +71,47 @@ func (spider *ResouSpider) parseHTML() ([]*models.Item, error) {
 	return items, nil
 }
 
-func (spider *ResouSpider) parseJSON() ([]*models.Item, error) {
-	c := colly.NewCollector()
-	items := make([]*models.Item, 0)
-	c.OnRequest(func(r *colly.Request) {
-		log.Println("Visiting", r.URL)
-	})
-	c.OnResponse(func(r *colly.Response) {
-		log.Println("response received", r.StatusCode)
-		js, err := simplejson.NewJson(r.Body)
-		if err != nil {
-			return
-		}
-		fmt.Println(js.Get("cards").GetIndex(0).Get("card_group"))
-	})
-	c.Visit(spider.JsonURL)
-	if len(items) == 0 {
-		return nil, errors.New("not data")
+// func (spider *ResouSpider) parseJSON() ([]*models.Item, error) {
+// 	c := colly.NewCollector()
+// 	items := make([]*models.Item, 0)
+// 	c.OnRequest(func(r *colly.Request) {
+// 		log.Println("Visiting", r.URL)
+// 	})
+// 	c.OnResponse(func(r *colly.Response) {
+// 		log.Println("response received", r.StatusCode)
+// 		js, err := simplejson.NewJson(r.Body)
+// 		if err != nil {
+// 			return
+// 		}
+// 		fmt.Println(js.Get("cards").GetIndex(0).Get("card_group"))
+// 	})
+// 	c.Visit(spider.JsonURL)
+// 	if len(items) == 0 {
+// 		return nil, errors.New("not data")
+// 	}
+// 	return items, nil
+// }
+
+func init() {
+	spider := &ResouSpider{
+		Name:     "微博",
+		Display:  "热搜榜",
+		Homepage: "https://s.weibo.com/top/summary?cate=realtimehot",
+		Logo:     "",
+		Domain:   "https://s.weibo.com/",
+		HtmlURL:  "https://s.weibo.com/top/summary?cate=realtimehot",
+		JsonURL:  "https://api.weibo.cn/2/guest/page?containerid=106003type=25&t=3&disable_hot=1&filter_type=realtimehot",
 	}
-	return items, nil
+	node, err := models.GetNodeByHomepage(spider.Homepage)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		node, err = models.NewNode(spider.Name, spider.Display, spider.Homepage, spider.Logo, spider.Domain)
+		if err != nil {
+			log.Panicf("failed to create new node(%v) error(%v)", spider.Name, err)
+		}
+	} else if err != nil {
+		log.Panicf("failed to get node(%v) error(%v)", spider.Name, err)
+	}
+	spider.NodeID = int64(node.Model.ID)
+
+	spiders.Register(spider)
 }
