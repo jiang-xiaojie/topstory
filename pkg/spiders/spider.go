@@ -18,15 +18,20 @@ func Register(s Spider) {
 	_spiders = append(_spiders, s)
 }
 
-// Run 定时执行所有的 spider
-func Run() {
+// RunSpider 定时执行所有的 spider
+func RunSpider() {
 	log.Info("start run spider")
+	runCrawl(time.Now())
 	// 每隔 1 分钟执行
 	ticker := time.NewTicker(1 * time.Minute)
 	for t := range ticker.C {
-		log.Infof("run spider time: %v", t)
-		for _, spider := range _spiders {
-			spider.Crawl()
-		}
+		runCrawl(t)
+	}
+}
+
+func runCrawl(t time.Time) {
+	log.Infof("run spider time: %v", t)
+	for _, spider := range _spiders {
+		spider.Crawl()
 	}
 }

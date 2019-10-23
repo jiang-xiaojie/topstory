@@ -111,7 +111,7 @@ func init() {
 	} else if err != nil {
 		log.Panicf("failed to get node(%v) error(%v)", spider.Name, err)
 	}
-	spider.NodeID = int(node.Model.ID)
+	spider.NodeID = node.ID
 
 	spiders.Register(spider)
 }
