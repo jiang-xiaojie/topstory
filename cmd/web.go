@@ -18,6 +18,7 @@ var Web = cli.Command{
 func runWeb(c *cli.Context) error {
 	r := gin.Default()
 	r.GET("/nodes", controllers.ListNodes)
+	r.GET("/nodes/:id", controllers.GetNode)
 	err := r.Run() // listen and serve on 0.0.0.0:8080
 	if err != nil {
 		log.Panic("failed to run web server")

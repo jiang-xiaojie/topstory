@@ -14,3 +14,16 @@ func ListNodes(c *gin.Context) {
 	}
 	c.JSON(200, formatJSON(nodes, nil))
 }
+
+// GetNode .
+func GetNode(c *gin.Context) {
+	var node struct {
+		ID int `uri:"id" binding:"required,uuid"`
+	}
+	err := c.BindUri(&node)
+	if err != nil {
+		c.JSON(404, formatJSON(nil, err))
+		return
+	}
+	c.JSON(200, formatJSON(nil, nil))
+}

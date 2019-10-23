@@ -17,7 +17,7 @@ type Item struct {
 	URL         string `gorm:"column:url"`
 	MD5         string `gorm:"column:md5;unique_index"`
 	Extra       string
-	NodeID      int64 `gorm:"column:node_id"` // 所属 node id
+	NodeID      int `gorm:"column:node_id"` // 所属 node id
 }
 
 func (item *Item) String() string {
@@ -47,7 +47,7 @@ func (item *Item) CreateOrUpdate() error {
 	return nil
 }
 
-func SaveItems(nodeID int64, items []*Item) error {
+func SaveItems(nodeID int, items []*Item) error {
 	for _, item := range items {
 		err := item.CreateOrUpdate()
 		if err != nil {

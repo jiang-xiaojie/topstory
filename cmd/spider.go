@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/jianggushi/topstory/pkg/spiders"
+	_ "github.com/jianggushi/topstory/pkg/spiders/weibo"
 	"github.com/urfave/cli"
 )
 

@@ -28,7 +28,7 @@ func Test_Craw(t *testing.T) {
 	} else if err != nil {
 		t.Fatal(err)
 	}
-	spider.NodeID = int64(node.Model.ID)
+	spider.NodeID = node.Model.ID
 	spider.Crawl()
 	t.Error("hello")
 }

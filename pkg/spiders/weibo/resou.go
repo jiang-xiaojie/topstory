@@ -23,7 +23,7 @@ type ResouSpider struct {
 	HtmlURL string
 	JsonURL string
 
-	NodeID int64
+	NodeID int
 }
 
 func (spider *ResouSpider) Crawl() error {
@@ -111,7 +111,7 @@ func init() {
 	} else if err != nil {
 		log.Panicf("failed to get node(%v) error(%v)", spider.Name, err)
 	}
-	spider.NodeID = int64(node.Model.ID)
+	spider.NodeID = int(node.Model.ID)
 
 	spiders.Register(spider)
 }

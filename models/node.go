@@ -10,12 +10,12 @@ import (
 // Node 站点信息
 type Node struct {
 	gorm.Model
-	Name     string
-	Display  string
-	Homepage string
-	Logo     string
-	Domain   string
-	MD5      string `gorm:"column:md5;unique_index"` // 站点在本站的 URL 标识
+	Name     string `json:"name"`
+	Display  string `json:"display"`
+	Homepage string `json:"homepage"`
+	Logo     string `json:"logo"`
+	Domain   string `json:"domain"`
+	MD5      string `gorm:"column:md5;unique_index" json:"md5"` // 站点在本站的 URL 标识
 }
 
 func NewNode(name, display, homepage, logo, domain string) (*Node, error) {
