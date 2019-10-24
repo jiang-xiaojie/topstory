@@ -13,3 +13,7 @@
 
 # Macos
 .DS_Store
+
+# miniprogram
+node_modules
+miniprogram_npm

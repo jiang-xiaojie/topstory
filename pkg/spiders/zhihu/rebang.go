@@ -49,8 +49,9 @@ func (spider *RebangSpider) parseHTML() ([]*models.Item, error) {
 		description := e.ChildText("div[class='HotItem-content'] > a > p[class='HotItem-excerpt']")
 		thumbnail := e.ChildAttr("a[class='HotItem-img'] > img", "src")
 		URL := e.ChildAttr("div[class='HotItem-content'] > a", "href")
-		extra := e.ChildText("div[class='HotItem-content'] > div")
-		log.Info(extra)
+		extra := e.DOM.ChildrenFiltered("div[class='HotItem-content']").
+			ChildrenFiltered("div").
+			Clone().Children().Remove().End().Text()
 		item := &models.Item{
 			Title:       title,
 			Description: description,

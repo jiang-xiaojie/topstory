@@ -15,6 +15,6 @@ var Spider = cli.Command{
 }
 
 func runSpider(c *cli.Context) error {
-	spiders.Run()
+	spiders.RunSpider()
 	return nil
 }
