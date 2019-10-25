@@ -1,9 +1,0 @@
-<!--index.wxml-->
-<view class="container" wx:for="{{lastItems}}" wx:key="index">
-  <view class="item">
-    <view class="index">{{index + 1}}</view>
-    <view class="title">{{item.title}}</view>
-    <view class="description">{{item.description}}</view>
-    <view class="extra">{{item.extra}}</view>
-  </view>
-</view>

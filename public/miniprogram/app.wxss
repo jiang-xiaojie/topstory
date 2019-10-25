@@ -1,4 +1,5 @@
 /**app.wxss**/
+@import './miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
 page {
   background-color: #F0F0F0;
   height: 100%;

@@ -13,7 +13,7 @@ Page({
   },
   onLoad() {
     wx.request({
-      url: 'http://127.0.0.1:8080/nodes/1/lastitem',
+      url: 'http://10.0.0.38:8080/nodes/1/lastitem',
       success: res => {
         let items = res.data.data.items
         this.setData({

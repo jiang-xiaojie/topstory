@@ -16,7 +16,7 @@ type Item struct {
 	UpdatedAt   time.Time  `json:"updated_at"`
 	DeletedAt   *time.Time `gorm:"index" json:"-"`
 	Title       string     `json:"title"`
-	Description string     `json:"description"`
+	Description string     `gorm:"type:text" json:"description"`
 	Thumbnail   string     `json:"thumbnail"`
 	URL         string     `gorm:"column:url" json:"url"`
 	MD5         string     `gorm:"column:md5;unique_index" json:"md5"`
