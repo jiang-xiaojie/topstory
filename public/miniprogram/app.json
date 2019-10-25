@@ -3,11 +3,11 @@
     "pages/index/index"
   ],
   "usingComponents": {
-    "van-panel": "miniprogram_npm/vant-weapp/panel"
   },
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F0F0F0",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F0F0F0",
     "navigationBarTitleText": "Topstory",
     "navigationBarTextStyle": "black"
   },
