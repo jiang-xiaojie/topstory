@@ -1,6 +1,4 @@
 {
-  "usingComponents": {},
-  "window": {
-    "navigationBarTitleText": "微博热搜"
-  }
+  "navigationBarTitleText": "微博热搜",
+  "usingComponents": {}
 }

@@ -22,8 +22,8 @@ func Register(s Spider) {
 func RunSpider() {
 	log.Info("start run spider")
 	runCrawl(time.Now())
-	// 每隔 1 分钟执行
-	ticker := time.NewTicker(1 * time.Minute)
+	// 每隔 5 分钟执行
+	ticker := time.NewTicker(5 * time.Minute)
 	for t := range ticker.C {
 		runCrawl(t)
 	}
