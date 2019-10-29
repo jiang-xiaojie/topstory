@@ -21,7 +21,7 @@ func runWeb(c *cli.Context) error {
 	r.GET("/nodes/:id", controllers.GetNodeByID)
 	r.GET("/nodes/:id/lastitem", controllers.GetLastItem)
 	r.GET("/nodes/:id/items", controllers.GetItems)
-	err := r.Run() // listen and serve on 0.0.0.0:8080
+	err := r.Run(":8765") // listen and serve on 0.0.0.0:8080
 	if err != nil {
 		log.Panic("failed to run web server")
 	}

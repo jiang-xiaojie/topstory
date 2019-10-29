@@ -1,12 +1,4 @@
-<!--index.wxml-->
-<!-- <view class="container" wx:for="{{lastItems}}" wx:key="index">
-  <view class="item">
-    <view class="index">{{index + 1}}</view>
-    <view class="title">{{item.title}}</view>
-    <view class="description">{{item.description}}</view>
-    <view class="extra">{{item.extra}}</view>
-  </view>
-</view> -->
+<!--weibo.wxml-->
 <view class="weui-panel">
   <view class="weui-panel__hd" style="font-size:60rpx; opacity:0.6">今天</view>
   <view class="weui-panel__bd">
