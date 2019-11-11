@@ -76,7 +76,11 @@ func SaveItems(nodeID int, items []*Item) error {
 		log.Printf("json marshal items: %v", err)
 		return err
 	}
-	lastItem := LastItem{NodeID: nodeID, ItemsText: string(data)}
+	lastItem := &LastItem{
+		NodeID:    nodeID,
+		ItemsText: string(data),
+		Updated:   int(time.Now().UTC().Unix()),
+	}
 	err = lastItem.CreateOrUpdate()
 	if err != nil {
 		log.Printf("create or update LastItem: %v", err)

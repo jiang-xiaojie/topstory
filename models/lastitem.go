@@ -18,7 +18,7 @@ type LastItem struct {
 
 // CreateOrUpdate create or update LastItem
 func (item *LastItem) CreateOrUpdate() error {
-	err := db.Select("updated").First(item, "node_id = ?", item.NodeID).Error
+	err := db.Select("updated").First(&LastItem{}, "node_id = ?", item.NodeID).Error
 	if gorm.IsRecordNotFoundError(err) {
 		err = db.Create(item).Error
 		if err != nil {
@@ -31,7 +31,7 @@ func (item *LastItem) CreateOrUpdate() error {
 		return err
 	}
 	// update item
-	err = db.Model(&item).Update("items", item.Items).Error
+	err = db.Model(&item).Update(item).Error
 	if err != nil {
 		log.Printf("update LastItem: %v", err)
 	}
