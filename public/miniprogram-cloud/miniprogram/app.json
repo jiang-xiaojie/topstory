@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/weibo/weibo"
+  ],
+  "usingComponents": {
+  },
+  "window": {
+    "backgroundColor": "#F0F0F0",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F0F0F0",
+    "navigationBarTitleText": "今日热榜",
+    "navigationBarTextStyle": "black"
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wx9074de28009e1111"
+  ],
+  "sitemapLocation": "sitemap.json"
+}

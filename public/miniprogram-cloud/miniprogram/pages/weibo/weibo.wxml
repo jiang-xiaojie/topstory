@@ -1,0 +1,15 @@
+<!--weibo.wxml-->
+<view class="weui-panel">
+  <view class="weui-panel__hd" style="font-size:60rpx; opacity:0.6">今天</view>
+  <view class="weui-panel__bd">
+    <navigator target="miniProgram" app-id="wx9074de28009e1111" path="pages/topic/topic?topicContent=#{{item.title}}#" hover-class="navigator-hover" wx:for="{{lastItems}}" wx:key="index">
+      <view class="weui-media-box weui-media-box_text">
+        <view class="weui-media-box__title weui-media-box__title_in-text">{{item.title}}</view>
+        <view class="weui-media-box__desc">{{item.description}}</view>
+        <view class="weui-media-box__info">
+          <view class="weui-media-box__info__meta">{{item.extra}}</view>
+        </view>
+      </view>
+    </navigator>
+  </view>
+</view>
